@@ -1,15 +1,3 @@
-/*
-SKU A: [206, 198, 278] -> 6 cases
-SKU B: [360, 300, 165] -> 2 cases
-SKU C: [388, 280, 192] -> 1 case
-SKU D: [370, 298, 220] -> 1 case
-
-Pallet size = 1200 x 800 x 145
-
-aditi.pandya@mujin-corp.com
-Github username: zureallyis
-*/
-
 #include <vector>
 #include <iostream>
 #include "StackablePallet.hpp"
