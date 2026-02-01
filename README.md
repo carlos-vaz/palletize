@@ -3,7 +3,7 @@
 ## Usage
 ```bash
 # compile
-g++ *.cpp -o main
+g++ src/* -I./inc/ -o main
 
 # run
 ./main >> data.txt
