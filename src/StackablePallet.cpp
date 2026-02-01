@@ -145,7 +145,6 @@ void StackablePallet::solve() {
             curr = (skuLL_t*)curr->next;
         }
     }
-
 }
 
 
@@ -252,30 +251,6 @@ bool StackablePallet::updateCorner(box_t &box, corner_t &corner) {
     }
 
     return (corner.orientation==0);
-}
-
-
-void StackablePallet::testSetup() {
-    // pX = 100, pY = 50
-
-    box_t boxA = {.dims={30,20}, .origin={0,                    0}, .id=0};
-    box_t boxB = {.dims={30,20}, .origin={this->pX-30,          0}, .id=1};
-    box_t boxC = {.dims={30,20}, .origin={0,          this->pY-20}, .id=2};
-    box_t boxD = {.dims={30,20}, .origin={this->pX-30,this->pY-20}, .id=3};
-    this->placements = {boxA, boxB, boxC, boxD};
-
-    this->corners = {{.pos={30,0}, .isConcave=true, .orientation=1}, \
-                     {.pos={0,20}, .isConcave=true, .orientation=1}, 
-                     {.pos={70,0}, .isConcave=true, .orientation=2}, 
-                     {.pos={100,20}, .isConcave=true, .orientation=2}, 
-                     {.pos={0,30}, .isConcave=true, .orientation=4}, 
-                     {.pos={30,50}, .isConcave=true, .orientation=4}, 
-                     {.pos={70,50}, .isConcave=true, .orientation=8}, 
-                     {.pos={100,30}, .isConcave=true, .orientation=8},
-                     {.pos={30,20}, .isConcave=false, .orientation=7},
-                     {.pos={70,20}, .isConcave=false, .orientation=13},
-                     {.pos={30,30}, .isConcave=false, .orientation=11},
-                     {.pos={70,30}, .isConcave=false, .orientation=14}};
 }
 
 bool StackablePallet::placeBox(box_t &box) {
