@@ -22,9 +22,10 @@ python3 plot.py data.txt
 From tallest to shortest, find box heights that occur at least 4 times (using hashmap). Try to place each box in one of the 4 pallet corners, moving on to the next corner or box if not possible. For each height class, try to fit higher-volume boxes first.
 
 ### Step 2: Create list of all corners and their orientations
-For each box shorter or equal to the max support height, starting from highest to lowest volume (to improve packing space efficiency), go through the list of corners and orientations until the box fits in one of them. (A corner can have any of 4 orientations available for placement, so a corner can have one of 2^4 = 16 geometric states (10 of which are valid))
+For each box shorter or equal to the max support height, starting from highest to lowest volume (to improve packing space efficiency), go through the list of *concave* corners and orientations until the box fits in one of them. Each corner can be in 1 of 10 geometric states, 6 of which are concave. Only concave corners are considered for placement to improve packing efficiency, since a box placed on a convex corner reduces the coalesence of available space (and a box placed into a corner such that it touches no concave corners can always be translated to a concave one, so there is no loss of optimality). 
 
-### Step 3: 
+### Step 3: Update affected corners and repeat
+For each box placed, re-evaluate the orientations and existence of any corners in your list that the box touches.  
 
 ## Limitations
 1. This algorithm never removes a box if it finds placing it leads to a suboptimal or incomplete placement solution. Any optimal solution would have to have a backtracking algorithm to search more possibilities. 
