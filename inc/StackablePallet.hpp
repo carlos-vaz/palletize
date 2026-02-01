@@ -40,13 +40,6 @@ class StackablePallet {
         StackablePallet(int palletLength, int palletWidth);
         ~StackablePallet() = default;
 
-        /* Tries to accomodate a box into the current pallet configuration
-         * PARAMS:
-         *      box - reference to an unplaced box_t object
-         * RETURNS: true if placed, false otherwise
-         */
-        bool placeBox(box_t &box);
-
         /* Consider some quantity of boxes of an SKU class for placement on pallet
          * PARAMS:
          *      id -       integer identifier of SKU class
@@ -61,9 +54,7 @@ class StackablePallet {
          */
         void solve();
 
-        /* Print solutions to stdout in a way that plot.py can parse to create a 
-         * plot visualization.
-         */
+        /* Print pallet placement solution to stdout (visualized with plot.py) */
         void printSolution();
 
 
@@ -75,7 +66,7 @@ class StackablePallet {
         vector<box_t> placements; // placed boxes
         vector<corner_t> corners; // vector of all corners
 
-        void placeSku(skuLL_t *sku);
+        bool placeBox(box_t &box);
         bool overlaps(box_t &box1, box_t &box2);
         int placeBoxOnConcaveCorner(box_t &box, corner_t &corner);
         bool updateCorner(box_t &box, corner_t &corner);

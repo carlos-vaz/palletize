@@ -5,7 +5,11 @@
 #include <map>
 #include <set>
 
-
+/* Initializer
+ * PARAMS:
+ *      palletLength - length of pallet
+ *      palletWidth  - width of pallet
+ */
 StackablePallet::StackablePallet(int xdim, int ydim) {
     this->pX = xdim;
     this->pY = ydim;
@@ -18,6 +22,12 @@ StackablePallet::StackablePallet(int xdim, int ydim) {
     this->corners.push_back({.pos={xdim,ydim}, .isConcave=true, .orientation=8, .active=true});
 }
 
+/* Consider some quantity of boxes of an SKU class for placement on pallet
+ * PARAMS:
+ *      id -       integer identifier of SKU class
+ *      l, w, h -  dimensions of SKU class
+ *      quantity - number of boxes in class
+ */
 void StackablePallet::addSkuToBacklog(int id, int l, int w, int h, int quantity) {
     skuLL_t *skull = new skuLL_t;
     skull->id = id;
@@ -58,6 +68,10 @@ void StackablePallet::addSkuToBacklog(int id, int l, int w, int h, int quantity)
     }
 }
 
+/* Place as many boxes from the backlog into the pallet in such a way
+ * that the four corners have boxes of equal height (for stackability).
+ * Box placements are stored in internal 'placements' vector
+ */
 void StackablePallet::solve() {
     // first, we must build a 4-corner same-height support configuration...
     // build height maps
@@ -147,26 +161,41 @@ void StackablePallet::solve() {
     }
 }
 
+/* Print pallet placement solution to stdout (visualized with plot.py) */
+void StackablePallet::printSolution() {
+    cout << "pallet_dim=" << this->pX << "," << this->pY << endl;
+    for(box_t box : this->placements) {
+        cout << "id="<<box.id<<" origin="<<box.origin[0]<<","<<box.origin[1]<< \
+                " dims="<<box.dims[0]<<","<<box.dims[1]<<","<<box.dims[2]<<endl;
+    }
+}
 
-// ############### INTERNAL HELPER METHODS ###############3
 
+// ############### INTERNAL HELPER FUNCTIONS ###############
+
+/* Returns true iff there is any overlap among two placed boxes */
 bool StackablePallet::overlaps(box_t &box1, box_t &box2) {
+    // determine if there is any x-axis overlap
     bool xOverlap = (box1.origin[0] < box2.origin[0]) && (box2.origin[0] < box1.origin[0]+box1.dims[0]);
     xOverlap |= (box1.origin[0] < box2.origin[0]+box2.dims[0]) && \
                 (box2.origin[0]+box2.dims[0] < box1.origin[0]+box1.dims[0]);
     if(!xOverlap) {
         return false;
     }
+    // determine if there is any y-axis overlap
     bool yOverlap = (box1.origin[1] < box2.origin[1]) && (box2.origin[1] < box1.origin[1]+box1.dims[1]);
     yOverlap |= (box1.origin[1] < box2.origin[1]+box2.dims[1]) && \
                 (box2.origin[1]+box2.dims[1] < box1.origin[1]+box1.dims[1]);
-
     if(!yOverlap) {
         return false;
     }
+    // there is box collision only if there is both x and y axis overlap
     return true;
 }
 
+/* Place box on first of the available orientations of a concave corner where the box fits. 
+ * Updates box and corner references if a fit is found. 
+ */
 int StackablePallet::placeBoxOnConcaveCorner(box_t &box, corner_t &corner) {
     // try to place in each available orientation
     uint8_t oShadow = corner.orientation;
@@ -220,6 +249,9 @@ int StackablePallet::placeBoxOnConcaveCorner(box_t &box, corner_t &corner) {
     return -1;
 }
 
+/* Update a corner's available orientations and concavity parameter if a specified 
+ * box touches the corner
+ */
 bool StackablePallet::updateCorner(box_t &box, corner_t &corner) {
     // if box does not pass through corner, corner is unaffected (do nothing)
     bool affected = (box.origin[0] <= corner.pos[0]) && (corner.pos[0] <= box.origin[0]+box.dims[0]) && \
@@ -253,14 +285,18 @@ bool StackablePallet::updateCorner(box_t &box, corner_t &corner) {
     return (corner.orientation==0);
 }
 
+
+/* Place box on the first available concave corner that accomodates it
+ * PARAMS:
+ *      box - reference to an unplaced box_t object
+ * RETURNS: true if placed, false otherwise
+ */
 bool StackablePallet::placeBox(box_t &box) {
-    //cout << "placeBox()" << endl;
     int orientationPlaced = 0;
     bool placed = false;
 
     if(box.dims[2]>this->maxHeight && this->maxHeight!=-1) {
         // this box is too tall
-        //cout << "box too tall!" << endl;
         return false;
     }
 
@@ -277,7 +313,6 @@ bool StackablePallet::placeBox(box_t &box) {
         if(orientationPlaced >= 0) { 
             // no collision in one of the corner orientations!
             // add to list of placed boxes
-            //cout << "placed box at corner= ("<<cc.pos[0]<<","<<cc.pos[1]<<")"<<endl;
             this->placements.push_back(box);
             placed = true;
             break;
@@ -357,14 +392,7 @@ bool StackablePallet::placeBox(box_t &box) {
     return (box.origin[0]!=-1);
 }
 
-void StackablePallet::printSolution() {
-    cout << "pallet_dim=" << this->pX << "," << this->pY << endl;
-    for(box_t box : this->placements) {
-        cout << "id="<<box.id<<" origin="<<box.origin[0]<<","<<box.origin[1]<< \
-                " dims="<<box.dims[0]<<","<<box.dims[1]<<","<<box.dims[2]<<endl;
-    }
-}
-
+/* Debug only */
 void StackablePallet::printStuff() {
     cout << "\n###### PALLET STATE ######" << endl;
     cout << "placed boxes:" << endl;
