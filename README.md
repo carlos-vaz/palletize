@@ -42,6 +42,7 @@ a 4-corner support height, and less possible placement options.
 Instead of randomly choosing concave corners and seeing if a box fits, we could have a heuristic to see which corners to try first to improve packing efficiency. We can calculate a list of locally maximum boxes (LMB), i.e. rectangles that cannot be expanded into any direction. We could keep these LMBs in an ordered linked list.
 
 ![alt text](https://github.com/carlos-vaz/palletize/blob/master/images/box_lmb.png)
+
 *Locally Maximum Boxes (LMB) in pallet (there are 2 not shown)*
 
 For each box (again, starting from the highest volume box available), we could try to find the smallest LMB that fits it. LMBs represent coalesced free space, and the largest LMBs are our most precious asset for packing large boxes. So if we take a large box and fit it into the smallest possible LMB, we would be optimizing for space. 
