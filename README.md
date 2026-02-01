@@ -12,6 +12,8 @@ g++ *.cpp -o main
 python3 plot.py data.txt
 ```
 
+![alt text](https://github.com/carlos-vaz/palletize/blob/master/images/test1.png)
+
 ## Assumptions
 1. Boxes cannot be rotated about any axis when placed
 2. Pallet is big enough for any corner-placed boxes to never interfere with other corner-placed boxes
