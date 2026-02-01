@@ -14,6 +14,9 @@ python3 plot.py data.txt
 
 ![alt text](https://github.com/carlos-vaz/palletize/blob/master/images/test1.png)
 
+*Solution to sample problem. Colors indicate height (red = tallest). SKU ID is the number in each box*
+
+
 ## Assumptions
 1. Boxes cannot be rotated about any axis when placed
 
