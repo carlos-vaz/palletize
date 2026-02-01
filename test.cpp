@@ -24,12 +24,8 @@ int main() {
     pallet.addSkuToBacklog(1, 360, 300, 165, 2);
     pallet.addSkuToBacklog(2, 388, 280, 192, 1);
     pallet.addSkuToBacklog(3, 370, 298, 220, 1);
-    pallet.printStuff();
 
     pallet.solve();
-    pallet.printStuff();
-
-    cout << endl;
 
     pallet.printSolution();
 

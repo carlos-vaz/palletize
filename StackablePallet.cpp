@@ -100,7 +100,7 @@ void StackablePallet::solve() {
                         supportsPlaced++;
                         heightToFrequencyMap[h]--;
                         curr->amt--;
-                        cout << "SUPPORT CONFIG --> PLACED SKU "<<curr->id<<" at pos=("<<box.origin[0]<<","<<box.origin[1]<<")"<<endl;
+                        //cout << "SUPPORT CONFIG --> PLACED SKU "<<curr->id<<" at pos=("<<box.origin[0]<<","<<box.origin[1]<<")"<<endl;
                         if(supportsPlaced == 4) {
                             // done with support building
                             this->maxHeight = h;
@@ -132,7 +132,7 @@ void StackablePallet::solve() {
             box_t box = {.dims={curr->l,curr->w,curr->h}, .origin={-1,0}, .id=curr->id};
             bool placed = placeBox(box);
             if(placed) {
-                cout << "PLACED SKU "<<curr->id<<" at pos=("<<box.origin[0]<<","<<box.origin[1]<<")"<<endl;
+                //cout << "PLACED SKU "<<curr->id<<" at pos=("<<box.origin[0]<<","<<box.origin[1]<<")"<<endl;
                 // decrement SKU quantity
                 curr->amt--;
                 // next, try to place another of the same SKU type
@@ -226,9 +226,6 @@ bool StackablePallet::updateCorner(box_t &box, corner_t &corner) {
     bool affected = (box.origin[0] <= corner.pos[0]) && (corner.pos[0] <= box.origin[0]+box.dims[0]) && \
                     (box.origin[1] <= corner.pos[1]) && (corner.pos[1] <= box.origin[1]+box.dims[1]);
     if(!affected) {
-        if(corner.orientation==0) {
-            cout <<"UNEXPECTED"<<endl;
-        }
         return (corner.orientation==0); // should be false
     }
     // remove the corner's available orientation destroyed by adding the box
@@ -282,13 +279,13 @@ void StackablePallet::testSetup() {
 }
 
 bool StackablePallet::placeBox(box_t &box) {
-    cout << "placeBox()" << endl;
+    //cout << "placeBox()" << endl;
     int orientationPlaced = 0;
     bool placed = false;
 
     if(box.dims[2]>this->maxHeight && this->maxHeight!=-1) {
         // this box is too tall
-        cout << "box too tall!" << endl;
+        //cout << "box too tall!" << endl;
         return false;
     }
 
@@ -305,7 +302,7 @@ bool StackablePallet::placeBox(box_t &box) {
         if(orientationPlaced >= 0) { 
             // no collision in one of the corner orientations!
             // add to list of placed boxes
-            cout << "placed box at corner= ("<<cc.pos[0]<<","<<cc.pos[1]<<")"<<endl;
+            //cout << "placed box at corner= ("<<cc.pos[0]<<","<<cc.pos[1]<<")"<<endl;
             this->placements.push_back(box);
             placed = true;
             break;
@@ -361,7 +358,7 @@ bool StackablePallet::placeBox(box_t &box) {
             }
         }
         if(!foundMatching) {
-            cout << "adding TOTALLY NEW CORNER = ("<<nc.pos[0]<<","<<nc.pos[1]<<")"<<endl;
+            //cout << "adding TOTALLY NEW CORNER = ("<<nc.pos[0]<<","<<nc.pos[1]<<")"<<endl;
             this->corners.push_back(nc);
         }
     }
@@ -372,7 +369,7 @@ bool StackablePallet::placeBox(box_t &box) {
         for(int i=0; i<corners.size(); i++) {
             if(updateCorner(box, corners[i])) {
                 // add corner to remove list
-                cout << "removing corner @ (" << corners[i].pos[0]<<","<<corners[i].pos[1]<<")"<<endl;
+                //cout << "removing corner @ (" << corners[i].pos[0]<<","<<corners[i].pos[1]<<")"<<endl;
                 cornersToRemove.push_back(i);
             }
         }
