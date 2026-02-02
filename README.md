@@ -12,9 +12,18 @@ g++ src/* -I./inc/ -o main
 python3 plot.py data.txt
 ```
 
-![alt text](https://github.com/carlos-vaz/palletize/blob/master/images/test1.png)
+### Sample problem 
+```
+SKU ID 0: [206, 198, 278] -> 6 cases
+SKU ID 1: [360, 300, 165] -> 2 cases
+SKU ID 2: [388, 280, 192] -> 2 case
+SKU ID 3: [370, 298, 220] -> 1 case
 
-*Solution to sample problem. Colors indicate height (red = tallest, blue = shortest). SKU ID is the number in each box*
+Pallet size = 1200 x 800 x 145
+```
+![alt text](https://github.com/carlos-vaz/palletize/blob/master/images/tighter.png)
+
+*Solution to sample problem. Colors indicate height (red = tallest, blue = shortest). SKU ID is the number in each box. Note that all boxes were placed except for one of the smaller SKU ID 0 boxes, which didn't fit.*
 
 
 ## Assumptions

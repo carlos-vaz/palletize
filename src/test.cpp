@@ -12,7 +12,7 @@ int main() {
     // Add four different SKU classes (id, x,y,z, quantity)
     pallet.addSkuToBacklog(0, 206, 198, 278, 6);
     pallet.addSkuToBacklog(1, 360, 300, 165, 2);
-    pallet.addSkuToBacklog(2, 388, 280, 192, 1);
+    pallet.addSkuToBacklog(2, 388, 280, 192, 2);
     pallet.addSkuToBacklog(3, 370, 298, 220, 1);
 
     // Try to place as many boxes as possible in stackable configuration
