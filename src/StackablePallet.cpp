@@ -275,6 +275,24 @@ bool StackablePallet::updateCorner(box_t &box, corner_t &corner) {
         corner.orientation &= ~(1<<3);
     }
 
+    // remove orientations obstructed by pallet boundaries
+    if(corner.pos[0]==0) {
+        corner.orientation &= ~(1<<1);
+        corner.orientation &= ~(1<<3);
+    }
+    if(corner.pos[0]==this->pX) {
+        corner.orientation &= ~(1<<0);
+        corner.orientation &= ~(1<<2);
+    }
+    if(corner.pos[1]==0) {
+        corner.orientation &= ~(1<<2);
+        corner.orientation &= ~(1<<3);
+    }
+    if(corner.pos[1]==this->pY) {
+        corner.orientation &= ~(1<<0);
+        corner.orientation &= ~(1<<1);
+    }
+
     // update concavity parameter
     corner.isConcave = true;
     if((corner.orientation&(1<<0)!=0 && corner.orientation&(1<<1)!=0) || \
