@@ -179,6 +179,7 @@ bool StackablePallet::overlaps(box_t &box1, box_t &box2) {
     bool xOverlap = (box1.origin[0] < box2.origin[0]) && (box2.origin[0] < box1.origin[0]+box1.dims[0]);
     xOverlap |= (box1.origin[0] < box2.origin[0]+box2.dims[0]) && \
                 (box2.origin[0]+box2.dims[0] < box1.origin[0]+box1.dims[0]);
+    xOverlap |= (box1.origin[0] == box2.origin[0]);
     if(!xOverlap) {
         return false;
     }
@@ -186,6 +187,7 @@ bool StackablePallet::overlaps(box_t &box1, box_t &box2) {
     bool yOverlap = (box1.origin[1] < box2.origin[1]) && (box2.origin[1] < box1.origin[1]+box1.dims[1]);
     yOverlap |= (box1.origin[1] < box2.origin[1]+box2.dims[1]) && \
                 (box2.origin[1]+box2.dims[1] < box1.origin[1]+box1.dims[1]);
+    yOverlap |= (box1.origin[1] == box2.origin[1]);
     if(!yOverlap) {
         return false;
     }
